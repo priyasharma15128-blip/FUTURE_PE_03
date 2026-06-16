@@ -1,4 +1,5 @@
 FUTURE_PE_03
+
 Excited to share my latest web development project: AI SEO Blog Pack Generator
 As part of my internship at Future interns
 This project helps businesses create SEO-focused content faster by generating:
