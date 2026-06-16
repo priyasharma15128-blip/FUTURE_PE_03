@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>AI SEO Blog Pack Generator</title>
+
+<style>
+body {
+    margin: 0;
+    overflow-x: hidden;
+    color: white;
+    background: #050816;
+    font-family: Arial;
+}
+
+/* CANVAS BACKGROUND */
+#bgCanvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -3;
+}
+
+/* AURORA LAYERS */
+.aurora {
+    position: fixed;
+    width: 60vw;
+    height: 60vw;
+    filter: blur(90px);
+    opacity: 0.35;
+    border-radius: 50%;
+    animation: floatMove 18s infinite ease-in-out;
+    z-index: -2;
+}
+
+.a1 {
+    background: #4f46e5;
+    top: -20%;
+    left: -10%;
+}
+
+.a2 {
+    background: #06b6d4;
+    bottom: -20%;
+    right: -10%;
+    animation-delay: 6s;
+}
+
+.a3 {
+    background: #9333ea;
+    top: 40%;
+    left: 60%;
+    animation-delay: 12s;
+}
+
+@keyframes floatMove {
+    0% { transform: translate(0,0) scale(1); }
+    50% { transform: translate(80px, -60px) scale(1.2); }
+    100% { transform: translate(0,0) scale(1); }
+}
+
+/* MAIN CONTAINER */
+.container {
+    max-width: 1000px;
+    margin: auto;
+    padding: 30px;
+}
+
+/* GLASS CARDS */
+.card {
+    background: rgba(255,255,255,0.06);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 16px;
+    padding: 20px;
+    margin-top: 20px;
+}
+
+/* INPUTS */
+input {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    border-radius: 8px;
+    border: none;
+    outline: none;
+}
+
+/* BUTTON */
+button {
+    width: 100%;
+    padding: 12px;
+    background: #38bdf8;
+    border: none;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    transform: scale(1.03);
+    background: #0ea5e9;
+}
+
+/* OUTPUT */
+pre {
+    white-space: pre-wrap;
+    background: rgba(0,0,0,0.4);
+    padding: 15px;
+    border-radius: 10px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- BACKGROUND -->
+<canvas id="bgCanvas"></canvas>
+
+<div class="aurora a1"></div>
+<div class="aurora a2"></div>
+<div class="aurora a3"></div>
+
+<!-- UI -->
+<div class="container">
+
+    <h1 style="text-align:center;">AI SEO Blog Pack Generator</h1>
+
+    <div class="card">
+        <input id="business" placeholder="Business Name">
+        <input id="industry" placeholder="Industry">
+        <input id="services" placeholder="Services">
+        <input id="location" placeholder="Location">
+        <input id="audience" placeholder="Target Audience">
+
+        <button onclick="generateBlog()">Generate SEO Blog Pack</button>
+    </div>
+
+    <div class="card">
+        <h2>Output</h2>
+        <pre id="output">Your SEO blog pack will appear here...</pre>
+        <button onclick="copyText()">Copy Content</button>
+    </div>
+
+</div>
+
+<script>
+
+/* PARTICLE BACKGROUND */
+const canvas = document.getElementById("bgCanvas");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let particles = [];
+
+for (let i = 0; i < 80; i++) {
+    particles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        r: Math.random() * 2,
+        dx: (Math.random() - 0.5) * 0.6,
+        dy: (Math.random() - 0.5) * 0.6
+    });
+}
+
+function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    ctx.fillStyle = "rgba(5, 8, 22, 0.4)";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    for (let p of particles) {
+        ctx.beginPath();
+        ctx.fillStyle = "rgba(255,255,255,0.4)";
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fill();
+
+        p.x += p.dx;
+        p.y += p.dy;
+
+        if (p.x < 0 || p.x > canvas.width) p.dx *= -1;
+        if (p.y < 0 || p.y > canvas.height) p.dy *= -1;
+    }
+
+    requestAnimationFrame(animate);
+}
+
+animate();
+
+window.addEventListener("resize", () => {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+});
+
+/* SEO BLOG GENERATOR */
+function generateBlog() {
+
+let business = document.getElementById("business").value;
+let industry = document.getElementById("industry").value;
+let services = document.getElementById("services").value;
+let location = document.getElementById("location").value;
+let audience = document.getElementById("audience").value;
+
+let output = `
+================================================
+SEO BLOG PACK FOR: ${business}
+================================================
+
+INDUSTRY: ${industry}
+SERVICES: ${services}
+LOCATION: ${location}
+AUDIENCE: ${audience}
+
+------------------------------------------------
+1. BLOG OUTLINE (H1–H3)
+------------------------------------------------
+
+H1: Best ${services} in ${location}
+
+H2: What is ${services}
+H2: Why ${audience} need it
+H2: Benefits
+H2: Pricing in ${location}
+H2: How to choose provider
+H2: FAQs
+H2: Conclusion
+
+------------------------------------------------
+2. LONG FORM SEO BLOG
+------------------------------------------------
+
+If you are looking for ${services} in ${location}, this guide will help you understand everything clearly.
+
+${services} plays an important role in ${industry} and helps customers get better results.
+
+Benefits:
+- High quality service
+- Better results
+- Affordable options
+
+Conclusion:
+Choosing the right provider ensures best results.
+
+------------------------------------------------
+3. INTERNAL LINKING IDEAS
+------------------------------------------------
+
+- Cost of ${services}
+- Benefits of ${services}
+- Guide to ${services}
+- Best practices for ${services}
+
+------------------------------------------------
+4. LOCAL SEO STRATEGY
+------------------------------------------------
+
+- Add "${location}" in headings
+- Use "near me" keywords
+- Optimize Google listing
+- Add local reviews
+
+------------------------------------------------
+5. SEO CHECKLIST
+------------------------------------------------
+
+✔ Keyword in title
+✔ Keyword in first paragraph
+✔ H2 structured content
+✔ Internal links added
+✔ Local SEO optimized
+✔ CTA included
+
+------------------------------------------------
+READY TO PUBLISH SEO PACK
+`;
+
+document.getElementById("output").innerText = output;
+}
+
+function copyText() {
+navigator.clipboard.writeText(document.getElementById("output").innerText);
+alert("Copied!");
+}
+
+</script>
+
+</body>
+</html>
